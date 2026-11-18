@@ -63,7 +63,7 @@ HapticBuddy/
 
 - macOS with Xcode
 - iOS 17.0 or later
-- A physical iPhone or iPad for haptic testing
+- A physical iPhone running iOS 17 or later with Core Haptics support for tactile testing. The Xcode target also includes iPad, but targeting a device does not mean it supports haptics. The app checks `supportsHaptics` at runtime; don't use the simulator to judge tactile output.
 - Microphone and speech recognition permissions enabled on device
 
 ### Setup
@@ -76,12 +76,11 @@ open HapticAssistant.xcodeproj
 
 ### Run
 
-1. Open `HapticAssistant.xcodeproj` in Xcode.
-2. Select your development team and adjust signing if needed.
-3. Choose a physical iOS device. Simulator testing is not enough for haptics.
-4. Supply reference recordings you have rights to use if you want audio playback; they are not included in this copy.
-5. Restore the missing `Info.plist` configuration referenced by the Xcode project, including microphone and speech-recognition usage descriptions. The current source snapshot has not been verified to build without that configuration.
-6. Build and run the app with `Cmd+R` only after reviewing the limitations below.
+1. Open the project and select the **HapticAssistant** target. In **Build Settings**, set **Generate Info.plist File** to **Yes** and clear **Info.plist File** for both Debug and Release; the checked-in settings point to missing files.
+2. In the target's **Info** settings, add **Privacy - Microphone Usage Description** (`NSMicrophoneUsageDescription`) and **Privacy - Speech Recognition Usage Description** (`NSSpeechRecognitionUsageDescription`). Describe how the app uses these permissions before trying recording or speech scoring.
+3. Under **Signing & Capabilities**, select your development team and use a unique bundle identifier if signing requires it. Select a supported physical iPhone as the run destination.
+4. For a one-phrase playback check, make your own recording of “Hello, how are you?” and save it as `HapticAssistant/Audio/hello_how_are_you.wav`. Add the WAV to the app target's **Copy Bundle Resources** so it can be found by the app bundle lookup. Keep the recording local.
+5. After reading the [public-copy limitations](#public-copy-limitations), use **Cmd+R** and try that phrase in Practice Mode with your own voice. Do not start a real participant session. These setup steps are based on the project settings and source; device playback and haptics have not been verified.
 
 ## App Flow
 
